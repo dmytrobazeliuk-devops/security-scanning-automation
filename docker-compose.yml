@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  trivy:
+    image: aquasec/trivy:latest
+    volumes:
+      - ./scan-results:/results
+      - .:/scan
+    command: >
+      sh -c "
+        trivy fs --format json --output /results/fs-scan.json /scan &&
+        trivy fs --format table --output /results/fs-scan.txt /scan
+      "
+
+  bandit:
+    image: python:3.11-alpine
+    volumes:
+      - .:/app
+      - ./scan-results:/results
+    working_dir: /app
+    command: >
+      sh -c "
+        pip install bandit &&
+        bandit -r . -f json -o /results/bandit-scan.json || true &&
+        bandit -r . -f txt -o /results/bandit-scan.txt || true
+      "
+
+  safety:
+    image: python:3.11-alpine
+    volumes:
+      - .:/app
+      - ./scan-results:/results
+    working_dir: /app
+    command: >
+      sh -c "
+        pip install safety &&
+        if [ -f requirements.txt ]; then
+          safety check --json > /results/safety-scan.json || true &&
+          safety check > /results/safety-scan.txt || true
+        fi
+      "
+

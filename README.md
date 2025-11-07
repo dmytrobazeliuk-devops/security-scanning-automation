@@ -1,47 +1,53 @@
-# Security Scanning & Compliance Automation
+# Security Scanning Automation
 
-Automated security scanning and compliance validation system
+Automated security scanning pipeline integrating Trivy, Bandit, Safety, and npm audit. Scans Docker images, code repositories, and dependencies for vulnerabilities with automated reporting.
 
 ## Features
 
-- **Automated Infrastructure**: Automated provisioning and management
-- **Best Practices**: Follows industry best practices and standards
-- **Scalable**: Designed for scalability and high availability
-- **Documentation**: Comprehensive documentation and examples
+- **Multi-Tool Scanning**: Trivy, Bandit, Safety, npm audit
+- **Docker Support**: Scan Docker images and filesystems
+- **Kubernetes Support**: Scan K8s manifests and clusters
+- **Automated Reporting**: JSON and text format reports
+- **CI/CD Integration**: Ready for GitHub Actions and GitLab CI
 
-## Tech Stack
+## Tools
 
-Trivy, OWASP ZAP, Checkov, SonarQube
-
-## Installation
-
-### Prerequisites
-
-- See individual module documentation for specific requirements
-
-### Setup
-
-1. Clone the repository:
-```bash
-git clone https://github.com/dmytrobazeliuk-devops//var/www/vhosts/devsecops.cv/projects_repos/security-scanning-automation.git
-cd /var/www/vhosts/devsecops.cv/projects_repos/security-scanning-automation
-```
-
-2. Follow the setup instructions in the documentation
+- **Trivy**: Container and filesystem vulnerability scanning
+- **Bandit**: Python security linter
+- **Safety**: Python dependency vulnerability scanner
+- **npm audit**: Node.js dependency vulnerability scanner
 
 ## Usage
 
-See individual module documentation for usage examples.
+### Run scan script
 
-## Project Structure
+```bash
+chmod +x scan.sh
+./scan.sh
+```
 
+### Scan Docker image
+
+```bash
+DOCKER_IMAGE=myapp:latest ./scan.sh
 ```
-/var/www/vhosts/devsecops.cv/projects_repos/security-scanning-automation/
-├── README.md              # This file
-├── modules/               # Reusable modules
-├── examples/              # Usage examples
-└── docs/                  # Documentation
+
+### Using Docker Compose
+
+```bash
+docker-compose up
 ```
+
+## Output
+
+Scan results are saved to `scan-results/` directory:
+
+- `docker-scan.json` / `docker-scan.txt`
+- `fs-scan.json` / `fs-scan.txt`
+- `k8s-scan.json` / `k8s-scan.txt`
+- `bandit-scan.json` / `bandit-scan.txt`
+- `npm-audit.json` / `npm-audit.txt`
+- `safety-scan.json` / `safety-scan.txt`
 
 ## Contributing
 
